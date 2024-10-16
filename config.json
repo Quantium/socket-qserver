@@ -1,0 +1,6 @@
+{
+    "basePort": 3000,
+    "dbFileName":  "./db/chat.db",
+    "freshStart": true,
+    "clusters": false
+}
