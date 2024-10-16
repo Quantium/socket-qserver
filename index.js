@@ -31,17 +31,17 @@ const database = await createDB(config);
  * if the clusters are enabled, the primary process will fork the workers
  * otherwise, the server will run in a single process
  */
-if (cluster.isPrimary && config.clusters) {
+if (cluster.isPrimary) {
     const numCPUs = availableParallelism();
     database.init();
-    for (let i = 0; i < numCPUs; i++) {
+    let cpus = config.clusters ? numCPUs: 1;
+    for (let i = 0; i < cpus; i++) {
         cluster.fork({
             PORT: config.basePort + i
         });
     }
     setupPrimary();
 } else {
-
     const app = express();
     const server = createServer(app);
     const io = new Server(server, {
